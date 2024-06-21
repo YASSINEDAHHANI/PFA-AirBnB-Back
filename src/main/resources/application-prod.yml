@@ -1,38 +1,55 @@
-#logging:
-#  level:
-#    ROOT: info
-#    org.hibernate.SQL: INFO
-#    ma.Anafal_Dahhaniback: INFO
-#
-#spring:
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/Airbnb
-#    username: postgres
-#    password: Admin
-#  jpa:
-#    properties:
-#      hibernate:
-#        default_schema: airbnb_clone
-##  liquibase:
-##    contexts: prod
-##    default-schema: airbnb_clone
-
 logging:
   level:
     ROOT: INFO
-    org.hibernate.SQL: INFO
-    ma.Anafal_Dahhaniback: INFO
+    org.hibernate.SQL: DEBUG
+    ma.Anafal_Dahhaniback: DEBUG
 
 spring:
+  profiles:
+    active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/airbnb?serverTimezone=UTC
-    username: root  # Replace with your MySQL username
-    password:   # Replace with your MySQL password
-    driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL driver class
+    url: jdbc:postgresql://localhost:5432/Airbnb
+    username: postgres
+    password: Admin
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: HikariPool
+      auto-commit: true
+      maximum-pool-size: 5
+      minimum-idle: 1
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 1800000
   jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+    show-sql: true
     properties:
       hibernate:
-        ddl-auto: none
-#  liquibase:
-#    contexts: prod
-#    default-schema: airbnb_clone
+        default_schema: airbnb_clone
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    contexts: dev
+    change-log: classpath:db/changelog/master.xml
+    default-schema: airbnb_clone
+    enabled: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+server:
+  port: 8080
+
+okta:
+  oauth2:
+    issuer: https://dev-pi70w68dmtszjxp6.us.auth0.com/
+    client-id: DeISBlqxwJDr1C3b6dJf5Qu48O21yyaC
+    client-secret: bIm8iGbNDTOBocZJR_pU960NDQ9aBWGo-FcVSJ4lTwZWpD8zZGXsuYVytNVJy80r
+
+application:
+  auth0:
+    role-landlord-id: rol_qkXAdZGx7QrYtFeh

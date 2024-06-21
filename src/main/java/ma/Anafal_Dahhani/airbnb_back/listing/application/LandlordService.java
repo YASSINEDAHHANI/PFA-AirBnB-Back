@@ -2,6 +2,7 @@ package ma.Anafal_Dahhani.airbnb_back.listing.application;
 
 import ma.Anafal_Dahhani.airbnb_back.listing.application.dto.CreatedListingDTO;
 import ma.Anafal_Dahhani.airbnb_back.listing.application.dto.DisplayCardListingDTO;
+import ma.Anafal_Dahhani.airbnb_back.listing.application.dto.ListingCreateBookingDTO;
 import ma.Anafal_Dahhani.airbnb_back.listing.application.dto.SaveListingDTO;
 import ma.Anafal_Dahhani.airbnb_back.listing.domain.Listing;
 import ma.Anafal_Dahhani.airbnb_back.listing.mapper.ListingMapper;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -59,5 +61,21 @@ public class LandlordService {
         } else {
             return State.<UUID, String>builder().forUnauthorized("User not authorized to delete this listing");
         }
+    }
+    public Optional<ListingCreateBookingDTO> getByListingPublicId(UUID publicId) {
+        return listingRepository.findByPublicId(publicId).map(listingMapper::mapListingToListingCreateBookingDTO);
+    }
+
+    public List<DisplayCardListingDTO> getCardDisplayByListingPublicId(List<UUID> allListingPublicIDs) {
+        return listingRepository.findAllByPublicIdIn(allListingPublicIDs)
+                .stream()
+                .map(listingMapper::listingToDisplayCardListingDTO)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<DisplayCardListingDTO> getByPublicIdAndLandlordPublicId(UUID listingPublicId, UUID landlordPublicId) {
+        return listingRepository.findOneByPublicIdAndLandlordPublicId(listingPublicId, landlordPublicId)
+                .map(listingMapper::listingToDisplayCardListingDTO);
     }
 }

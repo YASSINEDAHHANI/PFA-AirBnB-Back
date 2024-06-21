@@ -1,58 +1,3 @@
-#logging:
-#  level:
-#    ROOT: INFO
-#    org.hibernate.SQL: DEBUG
-#    ma.Anafal_Dahhaniback: DEBUG
-#
-#spring:
-#
-#  profiles:
-#    active: dev
-#  application:
-#    name: airbnb-back
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/Airbnb
-#    username: postgres
-#    password: Admin
-#    type: com.zaxxer.hikari.HikariDataSource
-#    hikari:
-#      poolName: Hikari
-#      auto-commit: false
-#  data:
-#    jpa:
-#      repositories:
-#        bootstrap-mode: deferred
-#  jpa:
-#
-#    open-in-view: false
-#    hibernate:
-#      ddl-auto: validate
-#    properties:
-#      hibernate:
-#        default_schema: airbnb_clone
-##  liquibase:
-##    contexts: dev
-##    change-log: classpath:db/changelog/master.xml
-##    default-schema: airbnb_clone
-##    enabled: true
-#  #    drop-first: true
-#  servlet:
-#    multipart:
-#      enabled: true
-#      max-file-size: 100MB
-#      max-request-size: 100MB
-#server:
-#  port: 8080
-#
-#okta:
-#  oauth2:
-#    issuer: https://dev-pi70w68dmtszjxp6.us.auth0.com/
-#    client-id: DeISBlqxwJDr1C3b6dJf5Qu48O21yyaC
-#    client-secret: bIm8iGbNDTOBocZJR_pU960NDQ9aBWGo-FcVSJ4lTwZWpD8zZGXsuYVytNVJy80r
-#
-#application:
-#  auth0:
-#    role-landlord-id: rol_qkXAdZGx7QrYtFeh
 logging:
   level:
     ROOT: INFO
@@ -65,30 +10,31 @@ spring:
   application:
     name: airbnb-back
   datasource:
-    url: jdbc:mysql://localhost:3306/airbnb?serverTimezone=UTC
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://localhost:5432/Airbnb
+    username: postgres
+    password: Admin
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
-      poolName: Hikari
+      pool-name: Hikari
       auto-commit: false
-  data:
-    jpa:
-      repositories:
-        bootstrap-mode: deferred
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
-        ddl-auto: none
+        default_schema: airbnb_clone
+  liquibase:
+    contexts: dev
+    change-log: classpath:db/changelog/master.xml
+    default-schema: airbnb_clone
+    enabled: true
   servlet:
     multipart:
       enabled: true
       max-file-size: 100MB
       max-request-size: 100MB
+
 server:
   port: 8080
 
